@@ -13,15 +13,18 @@ import {
     faFilter,
     faClipboardList,
     faClipboard,
-    faCalendarCheck
+    faCalendarCheck,
+    faSearch,
+    faCircle,
+    faThumbsUp, faThumbsDown
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
     faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faServer,
-    faEye, faEyeSlash,
+    faEye, faEyeSlash, faSearch,
     faIdCard, faEnvelope, faKey, faBriefcase,
     faCalendarDays, faSchool, faChalkboardTeacher, faBookOpenReader, faFilter, faClipboardList, faClipboard,
-    faCalendarCheck
+    faCalendarCheck, faCircle, faThumbsUp, faThumbsDown
 );
 
 export { FontAwesomeIcon };
