@@ -6,7 +6,7 @@
             <div class="col-md-1 p-0 side-menu">
                 <Sidebar/>
             </div>
-            <div class="col-md-11 pt-3">
+            <div class="col-md-11 pt-3 px-0">
                 <!-- Main content goes here -->
                 <div class="row">
                     <div class="col-10">

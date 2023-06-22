@@ -1,28 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ClassroomManagement from '../views/admin/management/ClassroomMangement.vue'
-import CourseManagement from '../views/admin/management/CourseManagement.vue'
-import DepartmentManagement from '../views/admin/management/DepartmentManagement.vue'
-import FiliereManagement from '../views/admin/management/FiliereManagement.vue'
-import LevelManagement from '../views/admin/management/LevelManagement.vue'
-import OptionManagement from '../views/admin/management/OptionManagement.vue'
-import TimeTable from '../views/admin/management/TimeTable.vue'
 
 const routes = [
   {
     path: '',
     name: 'home',
-    component: HomeView
+    component: () => import("@/views/HomeView.vue")
   },
   {
     path: '/admin',
     name: 'admin-home',
+    redirect: 'admin/time-table',
     children: [
       {
         path: 'classrooms',
         name: 'management-classroom',
-        redirect: 'admin/classrooms/create',
-        component: ClassroomManagement,
+        redirect: 'classrooms/create',
+        component: () => import("@/views/admin/management/ClassroomMangement.vue"),
         children: [
           {
             path: 'create',
@@ -44,32 +37,32 @@ const routes = [
       {
         path: 'courses',
         name: 'management-course',
-        component: CourseManagement
+        component: () => import("@/views/admin/management/CourseManagement.vue")
       },
       {
         path: 'departments',
         name: 'management-department',
-        component: DepartmentManagement
+        component: () => import("@/views/admin/management/DepartmentManagement.vue")
       },
       {
         path: 'filieres',
         name: 'management-filiere',
-        component: FiliereManagement
+        component: () => import("@/views/admin/management/FiliereManagement.vue")
       },
       {
         path: 'levels',
         name: 'management-level',
-        component: LevelManagement
+        component: () => import("@/views/admin/management/LevelManagement.vue") 
       },
       {
         path: 'options',
         name: 'management-option',
-        component: OptionManagement
+        component: () => import("@/views/admin/management/OptionManagement.vue")
       },
       {
         path: 'time-table',
         name: 'time-table',
-        component: TimeTable
+        component: () => import("@/views/admin/management/TimeTable.vue")
       },
     ]
   },

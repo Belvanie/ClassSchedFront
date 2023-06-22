@@ -1,18 +1,18 @@
 <template>
-    <div class="row">
-        <div class="col-10">
-            <h1 class="text-center">Gestion des options</h1>
-        </div>
-        <div class="col-2">
-            <img src="@/assets/logo_uy1.png" alt="logo uy1" width="40" height="50">
-            <span>Yaound&eacute; 1</span>
-        </div>
-    </div>
+    <basic-layout>
+        <template v-slot:main-title>
+            <h1 class="text-center fs-4">Gestion des options</h1>
+        </template>
+    </basic-layout>
 </template>
 
 <script>
+import BasicLayout from "@/components/BasicLayout.vue"
+
 export default {
-    name: 'OptionManagement',
-    components: {}
+    name: "OptionManagement",
+    components: {
+        BasicLayout
+    }
 }
 </script>
