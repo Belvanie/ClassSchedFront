@@ -2,29 +2,29 @@
     <div class="min-vh-100">
         <Header/>
         <main class="container-fluid">
-        <div class="row">
-            <div class="col-md-1 p-0 side-menu">
-                <Sidebar/>
-            </div>
-            <div class="col-md-11 pt-3 px-0">
-                <!-- Main content goes here -->
-                <div class="row">
-                    <div class="col-10">
-                        <slot name="main-title"></slot>
-                    </div>
-                    <div class="col-2">
-                        <img src="@/assets/logo_uy1.png" alt="logo uy1" width="40" height="50">
-                        <span>Yaound&eacute; 1</span>
-                    </div>
+            <div class="row">
+                <div class="col-12 col-md-1 p-0 side-menu">
+                    <Sidebar/>
                 </div>
-                <div class="row">
-                    <slot name="main-content"></slot>
+                <div class="col-12 col-md-11 pt-3 px-0">
+                    <!-- Main content goes here -->
+                    <div class="row">
+                        <div class="col-10">
+                            <slot name="main-title"></slot>
+                        </div>
+                        <div class="col-2">
+                            <img src="@/assets/logo_uy1.png" alt="logo uy1" width="40" height="50">
+                            <span>Yaound&eacute; 1</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <slot name="main-content"></slot>
+                    </div>
+                    <Footer/>
                 </div>
-                <Footer/>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 </template>
 
 <script>
@@ -44,6 +44,6 @@ export default {
 
 <style> 
 .side-menu {
-background-color: #4e1bad;
+    background-color: #4e1bad;
 }
 </style>

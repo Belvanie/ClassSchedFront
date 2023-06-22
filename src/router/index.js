@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/admin',
     name: 'admin-home',
-    redirect: 'admin/time-table',
+    redirect: 'time-table',
     children: [
       {
         path: 'classrooms',
@@ -37,32 +37,97 @@ const routes = [
       {
         path: 'courses',
         name: 'management-course',
-        component: () => import("@/views/admin/management/CourseManagement.vue")
+        redirect: 'courses/create',
+        component: () => import("@/views/admin/management/CourseManagement.vue"),
+        children: [
+          {
+            path: 'create',
+            name: 'create-course',
+            component: () => import("@/views/admin/forms/CreateCourse.vue")
+          },
+          {
+            path: 'update',
+            name: 'update-course',
+            component: () => import("@/views/admin/forms/UpdateCourse.vue")
+          },
+        ]
       },
       {
         path: 'departments',
         name: 'management-department',
-        component: () => import("@/views/admin/management/DepartmentManagement.vue")
+        redirect: 'departments/create',
+        component: () => import("@/views/admin/management/DepartmentManagement.vue"),
+        children: [
+          {
+            path: 'create',
+            name: 'create-department',
+            component: () => import("@/views/admin/forms/CreateDepartment.vue")
+          },
+          {
+            path: 'update',
+            name: 'update-department',
+            component: () => import("@/views/admin/forms/UpdateDepartment.vue")
+          },
+        ]
       },
       {
         path: 'filieres',
         name: 'management-filiere',
-        component: () => import("@/views/admin/management/FiliereManagement.vue")
+        redirect: 'filieres/create',
+        component: () => import("@/views/admin/management/FiliereManagement.vue"),
+        children: [
+          {
+            path: 'create',
+            name: 'create-filiere',
+            component: () => import("@/views/admin/forms/CreateFiliere.vue")
+          },
+          {
+            path: 'update',
+            name: 'update-filiere',
+            component: () => import("@/views/admin/forms/UpdateFiliere.vue")
+          },
+        ]
       },
       {
         path: 'levels',
         name: 'management-level',
-        component: () => import("@/views/admin/management/LevelManagement.vue") 
+        redirect: 'levels/create',
+        component: () => import("@/views/admin/management/LevelManagement.vue"),
+        children: [
+          {
+            path: 'create',
+            name: 'create-level',
+            component: () => import("@/views/admin/forms/CreateLevel.vue")
+          },
+          {
+            path: 'update',
+            name: 'update-level',
+            component: () => import("@/views/admin/forms/UpdateLevel.vue")
+          },
+        ]
       },
       {
         path: 'options',
         name: 'management-option',
-        component: () => import("@/views/admin/management/OptionManagement.vue")
+        redirect: 'options/create',
+        component: () => import("@/views/admin/management/OptionManagement.vue"),
+        children: [
+          {
+            path: 'create',
+            name: 'create-option',
+            component: () => import("@/views/admin/forms/CreateOption.vue")
+          },
+          {
+            path: 'update',
+            name: 'update-option',
+            component: () => import("@/views/admin/forms/UpdateOption.vue")
+          },
+        ]
       },
       {
         path: 'time-table',
         name: 'time-table',
-        component: () => import("@/views/admin/management/TimeTable.vue")
+        component: () => import("@/views/admin/management/TimeTable.vue"),
       },
     ]
   },
