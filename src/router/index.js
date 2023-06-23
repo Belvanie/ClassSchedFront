@@ -9,12 +9,12 @@ const routes = [
   {
     path: '/admin',
     name: 'admin-home',
-    redirect: 'time-table',
+    redirect: '/admin/time-table',
     children: [
       {
-        path: 'classrooms',
+        path: '/admin/classrooms',
         name: 'management-classroom',
-        redirect: 'classrooms/create',
+        redirect: '/admin/classrooms/create',
         component: () => import("@/views/admin/management/ClassroomMangement.vue"),
         children: [
           {
@@ -30,14 +30,14 @@ const routes = [
         ]
       },
       {
-        path: 'reservations',
+        path: '/admin/reservations',
         name: 'management-reservation',
         component: () => import('@/views/admin/management/ReservationManagement.vue')
       },
       {
-        path: 'courses',
+        path: '/admin/courses',
         name: 'management-course',
-        redirect: 'courses/create',
+        redirect: '/admin/courses/create',
         component: () => import("@/views/admin/management/CourseManagement.vue"),
         children: [
           {
@@ -53,9 +53,9 @@ const routes = [
         ]
       },
       {
-        path: 'departments',
+        path: '/admin/departments',
         name: 'management-department',
-        redirect: 'departments/create',
+        redirect: '/admin/departments/create',
         component: () => import("@/views/admin/management/DepartmentManagement.vue"),
         children: [
           {
@@ -71,9 +71,9 @@ const routes = [
         ]
       },
       {
-        path: 'filieres',
+        path: '/admin/filieres',
         name: 'management-filiere',
-        redirect: 'filieres/create',
+        redirect: '/admin/filieres/create',
         component: () => import("@/views/admin/management/FiliereManagement.vue"),
         children: [
           {
@@ -89,9 +89,9 @@ const routes = [
         ]
       },
       {
-        path: 'levels',
+        path: '/admin/levels',
         name: 'management-level',
-        redirect: 'levels/create',
+        redirect: '/admin/levels/create',
         component: () => import("@/views/admin/management/LevelManagement.vue"),
         children: [
           {
@@ -107,9 +107,9 @@ const routes = [
         ]
       },
       {
-        path: 'options',
+        path: '/admin/options',
         name: 'management-option',
-        redirect: 'options/create',
+        redirect: '/admin/options/create',
         component: () => import("@/views/admin/management/OptionManagement.vue"),
         children: [
           {
@@ -125,7 +125,7 @@ const routes = [
         ]
       },
       {
-        path: 'time-table',
+        path: '/admin/time-table',
         name: 'time-table',
         component: () => import("@/views/admin/management/TimeTable.vue"),
       },
