@@ -1,81 +1,58 @@
 <template>
-    <div class="row py-5">
-        <div class="col-2"></div>
-        <div class="col-8 px-5">
-            <!-- Research field -->
-            <div class="row mb-5">
-                <div class="col-6 p-0">
-                    <form class="container-fluid">
-                        <div class="input-group">
-                            <input type="text" class="form-control d-inline-flex" placeholder="Rechercher la salle">
-                            <span class="input-group-text" type="submit">
-                                <font-awesome-icon icon="search"></font-awesome-icon>
-                            </span>
-                        </div>
-                    </form>
+    <UpdateForm
+        :researchLabel="'la fili&egrave;re'"
+        :codeLabel="'Code de la fili&egrave;re'"
+        :nameLabel="'Nom de la fili&egrave;re'"
+        :codeIndex="'ex. INF'"
+        :nameIndex="'ex. INFORMATIQUE'"
+        :depLabel="'Code du d&eacute;partement'"
+        @submit="handleFormSubmit"
+    >
+        <template v-slot:message>
+            <div v-if="message" class="col-12">
+                <div class="border border-danger text-danger px-4 py-3 rounded">
+                    {{ message }}
                 </div>
             </div>
-            <!-- Creation form -->
-            <div class="border border-2 py-3">
-                <p class="fw-bolder mx-3">Modifiez les champs voulus</p>
-                <Form @submit="handleCreation" class="pt-3 mx-5 px-5" :validation-schema="schema">
-                    <div class="d-block">
-                        <div class="row g-3 mb-2">
-                            <div class="col-auto">
-                                <label class="col-form-label">Code de la fili&egrave;re</label>
-                            </div>
-                            <div class="col-auto">
-                                <Field class="form-control" name="code" id="code"/>
-                                <span class="form-text">
-                                    ex. A135, S006
-                                </span>
-                            </div>
-                            <ErrorMessage name="code" class="col-auto fs-1xl text-danger"/>
-                        </div>
-                        <div class="row g-3 mb-2">
-                            <div class="col-auto">
-                                <label class="col-form-label">Nom de la fili&egrave;re</label>
-                            </div>
-                            <div class="col-auto">
-                                <Field type="text" class="form-control" name="name" id="name"/>
-                                <span class="form-text">
-                                    ex. AMPHI 1003
-                                </span>
-                            </div>
-                            <ErrorMessage name="name" class="col-auto fs-1xl text-danger"/>
-                        </div>
-                        <div class="row g-3 mb-2">
-                            <div class="col-4">
-                                <label class="col-form-label">Quelle salle voulez-vous r&eacute;server ?</label>
-                            </div>
-                            <div class="col-4">
-                                <Field class="form-control" name="salle" id="salle" as="select">
-                                    <option value="">Salle</option>
-                                </Field>
-                            </div>
-                            <ErrorMessage name="salle" class="col-4 fs-1xl text-danger"/>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        <button type="submit" class="btn btn-grad">Confirmer</button>
-                    </div>
-                </form>
+        </template>
+        <template v-slot:research>
+            <span class="input-group-text" type="submit">
+                <font-awesome-icon icon="search"></font-awesome-icon>
+            </span>
+        </template>
+        <template v-slot:validation>
+            <div class="form-group row">
+                <div class="col-md-4 d-none d-md-block"></div>
+                <div class="col-12 col-md-4">
+                    <button type="submit" class="btn btn-grad w-100">Confirmer</button>
+                </div>
+                <div class="col-md-4 d-none d-md-block"></div>
             </div>
-        </div>
-        <div class="col-2"></div>
-    </div>
+        </template>
+    </UpdateForm>
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from 'vee-validate'
-// import * as yup from 'yup'
+import UpdateForm from '@/components/admin/UpdateForm.vue'
 
 export default {
-    name: "UpdateClassroom",
+    name: "UpdateFiliere",
     components: {
-        Form,
-        Field,
-        ErrorMessage
+        UpdateForm,
+    },
+    data() {
+        return {
+            loading: false,
+            message: "",
+            show: true,
+        }
+    },
+    computed: {},
+    created() {},
+    methods: {
+        handleFormSubmit(data) {
+            console.log(data)
+        }
     }
 }
 </script>
