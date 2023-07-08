@@ -8,7 +8,7 @@
                     <!-- Creation form -->
                     <div class="border border-2 py-3">
                         <p class="fw-bolder mx-3">Les champs marqu&eacute;s d'un (<span class="text-danger">*</span>) sont obligatoires</p>
-                        <Form @submit.prevent="handleSubmit" class="pt-3 mx-5 px-5" :validation-schema="schema">
+                        <Form @submit="handleSubmit" class="pt-3 mx-5 px-5" :validation-schema="schema">
                             <div class="form-group row g-3 mb-2">
                                 <div class="col-12 col-md-4">
                                     <label class="col-form-label">{{ codeLabel }}</label>
@@ -43,8 +43,8 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <Field class="form-control" name="dep" v-model="dep" as="select">
-                                        <option value="">UE</option>
-                                        <option v-for="dept in departments" :value="dept" :key="dept.code">{{ dept.code }}</option>
+                                        <option value="">Choisir le code...</option>
+                                        <option v-for="dept in departments" :value="dept.code" :key="dept.code">{{ dept.code }}</option>
                                     </Field>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
@@ -104,13 +104,14 @@ export default {
             schema,
             name: "",
             code: "",
+            dep: ""
         }
     },
     methods: {
         handleSubmit() {
             const formData = {
                 name: this.name,
-                title: this.title,
+                code: this.code,
                 dep: this.dep
             }
             this.$emit("submit", formData)

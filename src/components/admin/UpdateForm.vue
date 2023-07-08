@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <Field class="form-control" name="dep" v-model="dep" as="select">
-                                        <option value="">UE</option>
+                                        <option value="">Choisir le code...</option>
                                         <option v-for="dept in departments" :value="dept.code" :key="dept.code">{{ dept.code }}</option>
                                     </Field>
                                 </div>

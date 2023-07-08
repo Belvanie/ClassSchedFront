@@ -139,6 +139,7 @@
 import BasicLayout from '@/components/BasicLayout.vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
+import adminService from '@/services/admin.service'
 
 export default {
     name: 'ReservationManagement',
@@ -165,7 +166,19 @@ export default {
     mounted() {},
     created() {},
     computed: {},
-    methods: {}
+    methods: {
+        handleFormSubmit(data) {
+            console.log(data)
+            adminService.addReservation(data).then(
+                () => {
+                    this.$router.push("/admin/reservations")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
+        }
+    }
 }
 </script>
 

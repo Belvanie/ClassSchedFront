@@ -27,6 +27,7 @@
 
 <script>
 import CreationForm from '@/components/admin/CreationForm.vue'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "CreateCourse",
@@ -45,6 +46,14 @@ export default {
     methods: {
         handleFormSubmit(data) {
             console.log(data)
+            adminService.addCourse(data).then(
+                () => {
+                    this.$router.push("/admins/courses/create")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
         }
     }
 }

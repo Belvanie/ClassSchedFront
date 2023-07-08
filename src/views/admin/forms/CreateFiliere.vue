@@ -28,6 +28,7 @@
 
 <script>
 import CreationForm from '@/components/admin/CreationForm.vue'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "CreateFiliere",
@@ -46,6 +47,14 @@ export default {
     methods: {
         handleFormSubmit(data) {
             console.log(data)
+            adminService.addFiliere(data).then(
+                () => {
+                    this.$router.push("/admins/filieres/create")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
         }
     }
 }

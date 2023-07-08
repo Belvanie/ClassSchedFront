@@ -33,7 +33,7 @@ import Sidebar from '@/components/admin/Sidebar.vue'
 import Footer from './Footer.vue';
 
 export default {
-    name: 'AdminHomeView',
+    name: 'BasicLayout',
     components: {
         Header,
         Sidebar,

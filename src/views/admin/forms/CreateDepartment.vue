@@ -27,6 +27,7 @@
 
 <script>
 import CreationForm from '@/components/admin/CreationForm.vue'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "CreateDepartment",
@@ -45,6 +46,14 @@ export default {
     methods: {
         handleFormSubmit(data) {
             console.log(data)
+            adminService.addDepartment(data).then(
+                () => {
+                    this.$router.push("/admins/departments/create")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
         }
     }
 }
