@@ -48,4 +48,26 @@ export default {
     border-bottom: 4px solid #961fe6;        
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
+
+.animate_block {
+
+  animation-name: slideIn;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>

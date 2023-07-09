@@ -8,7 +8,7 @@
                 </router-link>
             </div>
         </div>
-        <div class="row mx-5 text-center rounded shadow-lg">
+        <div class="row mx-5 text-center rounded shadow-lg animate_block">
             <div class="col-12 col-md-6 p-5">
                 <div class="p-5 justify-content-center align-items-center">
                     <h2 class="fs-6 fw-normal text-uppercase text-center">
@@ -171,5 +171,27 @@ export default {
 
 .description {
     font-size: 0.85rem;
+}
+
+.animate_block {
+
+  animation-name: slideIn;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
