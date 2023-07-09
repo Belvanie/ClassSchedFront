@@ -7,7 +7,7 @@
         :codeIndex="'ex. PHY 3022'"
         :codeNewIndex="'ex. PHY 3022'"
         :nameIndex="'ex. Thermodynamique'"
-        @submit="handleFormSubmit"
+        @submit="handleUpdate"
     >
         <template v-slot:message>
             <div v-if="message" class="col-12">
@@ -53,9 +53,7 @@ export default {
     computed: {},
     created() {},
     methods: {
-        handleFormSubmit(data) {
-            console.log("A")
-            console.log(data)
+        handleUpdate(data) {
             adminService.updateCourse(data).then(
                 (res) => {
                     this.message = res.data.message

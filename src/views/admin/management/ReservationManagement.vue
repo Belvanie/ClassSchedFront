@@ -157,6 +157,7 @@ export default {
         });
 
         return {
+            successful: false,
             loading: false,
             message: "",
             show: true,
@@ -167,10 +168,12 @@ export default {
     created() {},
     computed: {},
     methods: {
-        handleFormSubmit(data) {
+        handleCreation(data) {
             console.log(data)
             adminService.addReservation(data).then(
-                () => {
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
                     this.$router.push("/admin/reservations")
                 },
                 (error) => {

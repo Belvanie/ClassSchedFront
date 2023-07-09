@@ -4,6 +4,8 @@ import authHeader from "./auth-header";
 // API endpoints
 const BASE_URL = 'http://127.0.0.1:8000/';
 const DATA_URL = BASE_URL + 'unité/';
+// const PLANNING_URL = BASE_URL + 'plannification/';
+const USER_URL = BASE_URL + 'utilisateur/';
 
 class AdminService {
     addClassroom(data) {
@@ -140,16 +142,19 @@ class AdminService {
     }
 
     addReservation(data) {
+        let formData = new FormData()
+        formData.append('salle', data.salle)
+        formData.append('date', data.date)
+        formData.append('heure_debut', data.debut)
+        formData.append('heure_fin', data.fin)
+        formData.append('motif', data.motif)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/reservations', 
-                {
-                    salle: data.salle,
-                    date: data.date,
-                    heure_debut: data.debut,
-                    heure_fin: data.fin,
-                    motif: data.motif
-                },
+                USER_URL + 'reservation/', 
+                formData,
                 {
                     headers: authHeader()
                 }
