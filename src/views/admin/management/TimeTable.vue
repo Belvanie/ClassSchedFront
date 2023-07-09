@@ -5,6 +5,31 @@
         </template>
 
         <template v-slot:main-content>
+            
+            <v-alert
+                v-if="isSuccess"
+                dismissible
+                type="success"
+                prominent
+                :class="{ 'fade-enter-active': isSuccess, 'fade-leave-active': !isSuccess }"
+                class="alert-width position-fixed top-0 start-50 translate-middle-x mt-10"
+                @input="dismissAlert"
+            >
+                Succès ! Votre opération a été effectuée avec succès.
+            </v-alert>
+            
+            <v-alert
+                v-if="isError"
+                dismissible
+                type="error"
+                prominent
+                :class="{ 'fade-enter-active': !isError, 'fade-leave-active': isError }"
+                class="alert-width position-fixed top-0 start-50 translate-middle-x mt-10"
+                @input="dismissAlert"
+            >
+                Erreur ! Une erreur s'est produite lors de l'opération.
+            </v-alert>
+
             <div class="menu-container">
             <div class="select-container">
                 <v-select
@@ -66,7 +91,19 @@
                 </v-btn>
             </div>
             </div>
-            <time-table-edit :initial-data="initialData" @selected-data-changed="handleSelectedDataChange" class="w-75 m-auto"></time-table-edit>
+            <time-table-edit :initial-data="initialData" @selected-data-changed="handleSelectedDataChange" v-if="!isLoading" class="w-75 m-auto"></time-table-edit>
+            
+            <div class="loader-container mt-16">
+
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <v-progress-circular
+                    v-if="isLoading"
+                    indeterminate
+                    color="primary"
+                ></v-progress-circular>
+
+                <!-- Contenu de votre application -->
+            </div>
             <!-- ... le reste du code ... -->
         </template>
     </basic-layout>
@@ -124,17 +161,50 @@
                 selectedTeacher: null,
                 selectedOption: null,
                 selectedMajor: null,
-                selectedLevel: null
+                selectedLevel: null,
+    
+                isLoading: false, // Variable indiquant si le chargement est en cours
+                isSuccess: false, // Variable indiquant si l'opération a réussi
+                isError: false, // Variable indiquant si l'opération a réussi
             };
         },
         methods: {
             // ... le reste du code ...
 
             deleteEmploi() {
-                // Logique de suppression de l'option
+                this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
+
+                // Effectuez ici votre logique de traitement ou d'appel à l'API
+
+                // Simulez une pause de 2 secondes avant de terminer le chargement
+                setTimeout(() => {
+                    this.isLoading = false; // Fin du chargement après un délai simulé
+                    this.isSuccess = true; // Affiche l'alerte de succès
+
+                    // Masque l'alerte de succès après 3 secondes (ajustez selon vos besoins)
+                    setTimeout(() => {
+                        this.isSuccess = false;
+                    }, 3000);
+                }, 2000);
+                // Logique de suppression de l'emploi
             },
             confirmEmploi() {
-                // Logique de confirmation de l'option
+                this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
+
+                // Effectuez ici votre logique de traitement ou d'appel à l'API
+
+                // Simulez une pause de 2 secondes avant de terminer le chargement
+                setTimeout(() => {
+                    this.isLoading = false; // Fin du chargement après un délai simulé
+                    this.isSuccess = true; // Affiche l'alerte de succès
+
+                    // Masque l'alerte de succès après 3 secondes (ajustez selon vos besoins)
+                    setTimeout(() => {
+                        this.isSuccess = false;
+                    }, 3000);
+                }, 2000);
+            
+                // Logique de confirmation de l'emploi
             },
 
             handleSelectedDataChange(selectedData) {
@@ -148,6 +218,11 @@
                 }
                 this.initialData = selectedData;
             },
+
+            dismissAlert() {
+                // Masque l'alerte de succès si l'utilisateur la ferme manuellement
+                this.isSuccess = false;
+            },
         
             // ... le reste du code ...
         },
@@ -158,17 +233,44 @@
 
 <style scoped>
     .select-container {
-    display: flex;
-    width: 594px;
-    margin: auto;
+        display: flex;
+        width: 594px;
+        margin: auto;
     }
 
     .menu-container {
-    display: flex;
+        display: flex;
     }
 
     .button-container {
         display: flex;
+    }
+
+    .loader-container {
+        position: relative;
+        height: 100%;
+    }
+
+    .v-progress-circular {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    .fade-transition-enter-active,
+    .fade-transition-leave-active {
+        transition: opacity 0.5s;
+    }
+
+    .fade-transition-enter,
+    .fade-transition-leave-to {
+        opacity: 0;
+    }
+    .alert-width {
+        max-width: 33.33%; /* 4 colonnes sur 12 */
+        z-index: 9999;
     }
 
 </style>
