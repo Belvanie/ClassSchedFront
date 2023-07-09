@@ -59,17 +59,18 @@ export default {
 </script>
 
 <style scoped>
-.side-items {
-  background-color: #4e1bad;
-  color: #fff;
-}
+    .side-items {
+    background-color: #4e1bad;
+    color: #fff;
+    }
 
-.side-items:hover {
-  background-color: #f73b66;
-}
+    .side-items:hover {
+    background-color: #f73b66;
+    }
 
-.sub-text {
-    font-size: 0.7rem;
-    font-weight: bolder;
-}
+    .sub-text {
+        font-size: 0.7rem;
+        font-weight: bolder;
+    }
+
 </style>
