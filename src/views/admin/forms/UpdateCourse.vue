@@ -2,14 +2,16 @@
     <UpdateForm
         :researchLabel="'l\'UE'"
         :codeLabel="'Code de l\'UE'"
+        :codeNewLabel="'Nouveau code de l\'UE'"
         :nameLabel="'Nom de l\'UE'"
         :codeIndex="'ex. PHY 3022'"
+        :codeNewIndex="'ex. PHY 3022'"
         :nameIndex="'ex. Thermodynamique'"
         @submit="handleFormSubmit"
     >
         <template v-slot:message>
             <div v-if="message" class="col-12">
-                <div class="border border-danger text-danger px-4 py-3 rounded">
+                <div :class="successful ? 'border border-success text-success px-4 py-3 rounded' : 'border border-danger text-danger px-4 py-3 rounded'">
                     {{ message }}
                 </div>
             </div>
@@ -33,6 +35,7 @@
 
 <script>
 import UpdateForm from '@/components/admin/UpdateForm.vue'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "UpdateCourse",
@@ -41,6 +44,7 @@ export default {
     },
     data() {
         return {
+            successful: false,
             loading: false,
             message: "",
             show: true,
@@ -50,7 +54,18 @@ export default {
     created() {},
     methods: {
         handleFormSubmit(data) {
+            console.log("A")
             console.log(data)
+            adminService.updateCourse(data).then(
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
+                    this.$router.push("/admin/courses/update")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
         }
     }
 }

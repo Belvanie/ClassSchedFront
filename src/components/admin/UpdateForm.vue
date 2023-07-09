@@ -4,9 +4,9 @@
         <div class="col-12">
             <div class="row py-5">
                 <div class="col-2"></div>
-                <div class="col-md-8 px-5 d-none d-md-block">
+                <div class="col-md-8 px-5">
                     <!-- Research field -->
-                    <div class="row mb-5">
+                    <!-- <div class="row mb-5">
                         <div class="col-6 p-0">
                             <form class="container-fluid">
                                 <div class="input-group">
@@ -15,7 +15,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Creation form -->
                     <div class="border border-2 py-3">
                         <div class="row">
@@ -28,7 +28,7 @@
                                 </span>
                             </div>
                         </div>
-                        <Form @submit="handleUpdate" class="pt-3 mx-5 px-5" :validation-schema="schema">
+                        <Form @submit="handleSubmit" class="pt-3 mx-5 px-5" :validation-schema="schema">
                             <div class="form-group row g-3 mb-2">
                                 <div class="col-12 col-md-4">
                                     <label class="col-form-label">{{ codeLabel }}</label>
@@ -41,6 +41,20 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <ErrorMessage name="code" class="text-danger"/>
+                                </div>
+                            </div>
+                            <div class="form-group row g-3 mb-2">
+                                <div class="col-12 col-md-4">
+                                    <label class="col-form-label">{{ codeNewLabel }}</label>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <Field class="form-control" name="codeNew" id="codeNew" v-model="codeNew"/>
+                                    <span class="form-text">
+                                        {{ codeNewIndex }}
+                                    </span>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <ErrorMessage name="codeNew" class="text-danger"/>
                                 </div>
                             </div>
                             <div class="form-group row g-3 mb-3">
@@ -62,10 +76,7 @@
                                     <label class="col-form-label">{{ depLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="dep" v-model="dep" as="select">
-                                        <option value="">Choisir le code...</option>
-                                        <option v-for="dept in departments" :value="dept.code" :key="dept.code">{{ dept.code }}</option>
-                                    </Field>
+                                    <Field class="form-control" name="dep" id="dep" v-model="dep"/>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
                             </div>
@@ -90,6 +101,10 @@ export default {
             type: String,
             default: "Code",
         },
+        codeNewLabel: {
+            type: String,
+            default: "Nouveau Code",
+        },
         nameLabel: {
             type: String,
             default: "Name",
@@ -101,15 +116,16 @@ export default {
             type: String,
             default: "ex. CODE",
         },
+        codeNewIndex: {
+            type: String,
+            default: "ex. CODE",
+        },
         nameIndex: {
             type: String,
             default: "ex. NAME",
         },
         depLabel: {
             type: String
-        },
-        departments: {
-            type: Array
         }
     },
     components: {
@@ -120,22 +136,28 @@ export default {
     data() {
         const schema = yup.object().shape({
             code: yup.string().required("Le code est requis."),
+            codeNew: yup.string().required("Le nouveau code est requis."),
             name: yup.string().required("Le nom est requis."),
+            dep: yup.string().required("Le code du departement est requis."),
         })
 
         return {
             schema,
             name: "",
             code: "",
+            codeNew: "",
+            dep: ""
         }
     },
     methods: {
         handleSubmit() {
             const formData = {
                 name: this.name,
-                title: this.title,
+                code: this.code,
+                codeNew: this.codeNew,
                 dep: this.dep
             }
+            console.log(formData)
             this.$emit("submit", formData)
         },
     }

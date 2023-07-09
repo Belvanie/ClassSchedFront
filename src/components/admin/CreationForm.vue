@@ -42,10 +42,7 @@
                                     <label class="col-form-label">{{ depLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="dep" v-model="dep" as="select">
-                                        <option value="">Choisir le code...</option>
-                                        <option v-for="dept in departments" :value="dept.code" :key="dept.code">{{ dept.code }}</option>
-                                    </Field>
+                                    <Field class="form-control" name="dep" id="dep" v-model="dep"/>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
                             </div>

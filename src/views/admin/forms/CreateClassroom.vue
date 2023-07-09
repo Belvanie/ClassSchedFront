@@ -8,7 +8,7 @@
         >
         <template v-slot:message>
             <div v-if="message" class="col-12">
-                <div class="border border-danger text-danger px-4 py-3 rounded">
+                <div :class="successful ? 'border border-success text-success px-4 py-3 rounded' : 'border border-danger text-danger px-4 py-3 rounded'">
                     {{ message }}
                 </div>
             </div>
@@ -47,7 +47,9 @@ export default {
         handleFormSubmit(data) {
             console.log(data)
             adminService.addClassroom(data).then(
-                () => {
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
                     this.$router.push("/admins/classrooms/create")
                 },
                 (error) => {

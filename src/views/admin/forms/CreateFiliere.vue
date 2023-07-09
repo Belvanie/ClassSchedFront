@@ -9,7 +9,7 @@
     >
         <template v-slot:message>
             <div v-if="message" class="col-12">
-                <div class="border border-danger text-danger px-4 py-3 rounded">
+                <div :class="successful ? 'border border-success text-success px-4 py-3 rounded' : 'border border-danger text-danger px-4 py-3 rounded'">
                     {{ message }}
                 </div>
             </div>
@@ -37,6 +37,7 @@ export default {
     },
     data() {
         return {
+            successful: false,
             loading: false,
             message: "",
             show: true,
@@ -46,10 +47,11 @@ export default {
     created() {},
     methods: {
         handleFormSubmit(data) {
-            console.log(data)
             adminService.addFiliere(data).then(
-                () => {
-                    this.$router.push("/admins/filieres/create")
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
+                    this.$router.push("/admin/filieres/create")
                 },
                 (error) => {
                     this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()

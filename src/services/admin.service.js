@@ -1,8 +1,9 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-// API endpoint
-const DATA_URL = '';
+// API endpoints
+const BASE_URL = 'http://127.0.0.1:8000/';
+const DATA_URL = BASE_URL + 'unité/';
 
 class AdminService {
     addClassroom(data) {
@@ -10,8 +11,8 @@ class AdminService {
             .post(
                 DATA_URL + '/salles', 
                 {
-                    code: data.code,
-                    name: data.name
+                    codeUE: data.code,
+                    intitule: data.name
                 },
                 {
                     headers: authHeader()
@@ -20,13 +21,34 @@ class AdminService {
     }
 
     addCourse(data) {
+        let formData = new FormData()
+        formData.append('codeUE', data.code)
+        formData.append('intitule', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/ues', 
+                DATA_URL + 'creer_ue/', 
+                formData,
                 {
-                    code: data.code,
-                    name: data.name
-                },
+                    headers: authHeader()
+                }
+            );
+    }
+
+    updateCourse(data) {
+        let formData = new FormData()
+        formData.append('codeUE', data.code)
+        formData.append('codeNew', data.codeNew)
+        formData.append('intitule', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'modifier_ue/', 
+                formData,
                 {
                     headers: authHeader()
                 }
@@ -34,27 +56,52 @@ class AdminService {
     }
 
     addDepartment(data) {
+        let formData = new FormData()
+        formData.append('codeDepartement', data.code)
+        formData.append('nomDepartement', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/departements',
-                {
-                    code: data.code,
-                    name: data.name
-                },
+                DATA_URL + 'creer_departement/',
+                formData,
                 {
                     headers: authHeader()
                 }
             );
     }
-    addFiliere(data) {
+
+    updateDepartment(data) {
+        let formData = new FormData()
+        formData.append('codeDepartement', data.code)
+        formData.append('codeNew', data.codeNew)
+        formData.append('nomDepartement', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/filieres', 
+                DATA_URL + 'modifier_departement/',
+                formData,
                 {
-                    code: data.code,
-                    name: data.name,
-                    code_departement: data.dep
-                },
+                    headers: authHeader()
+                }
+            );
+    }
+
+    addFiliere(data) {
+        let formData = new FormData()
+        formData.append('codeFiliere', data.code)
+        formData.append('nomFiliere', data.name)
+        formData.append('codeDepartement', data.dep)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'creer_filiere/', 
+                formData,
                 {
                     headers: authHeader()
                 }
@@ -76,13 +123,16 @@ class AdminService {
     }
 
     addOption(data) {
+        let formData = new FormData()
+        formData.append('codeOption', data.code)
+        formData.append('nomOption', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/options', 
-                {
-                    code: data.code,
-                    name: data.name
-                },
+                DATA_URL + 'creer_option/', 
+                formData,
                 {
                     headers: authHeader()
                 }
