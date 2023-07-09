@@ -1,113 +1,122 @@
 <template>
-  <h2 class="mt-5 text-center">EMPLOI DE TEMPS - TIMETABLE</h2>
-  <br/>
-  <div class="menu-container w-75 m-auto">
-    <div class="text-left">
-      <p class="m-0">
-        <span class="font-weight-bold">Faculté</span> : <span>FACSCIENCES</span>
-      </p>
-      <p class="m-0">
-        <span class="font-weight-bold">Niveau</span> : <span v-if="selectedLevel">{{ selectedLevel }}</span><span v-else>TOUS</span>
-      </p>
-      <p class="m-0">
-        <span class="font-weight-bold">Semestre</span> : <span v-if="selectedSemester">{{ selectedSemester }}</span><span v-else>TOUS</span>
-      </p>
-    </div>
+    <default-layout>
+        <template v-slot:main-title>
+        </template>
 
-    <div class="select-container">
+        <template v-slot:main-content>
+          <h2 class="mt-5 text-center">EMPLOI DE TEMPS - TIMETABLE</h2>
+          <br/>
+          <div class="menu-container w-75 m-auto">
+            <div class="text-left mr-16">
+              <p class="m-0">
+                <span class="font-weight-bold">Faculté</span> : <span>FACSCIENCES</span>
+              </p>
+              <p class="m-0">
+                <span class="font-weight-bold">Niveau</span> : <span v-if="selectedLevel">{{ selectedLevel }}</span><span v-else>TOUS</span>
+              </p>
+              <p class="m-0">
+                <span class="font-weight-bold">Semestre</span> : <span v-if="selectedSemester">{{ selectedSemester }}</span><span v-else>TOUS</span>
+              </p>
+            </div>
 
-      <v-select
-        v-model="selectedMajor"
-        :items="majors"
-        :hint="selectedMajor ? `${selectedMajor}` : ''"
-        persistent-hint
-        item-title="text"
-        item-value="value"
-        label="Filière"
-        variant="solo"
-        class="w-25 mr-2"
-      ></v-select>
+            <div class="select-container ml-16">
 
-      <v-select
-        v-model="selectedLevel"
-        :items="levels"
-        :hint="selectedLevel ? `${selectedLevel}` : ''"
-        persistent-hint
-        item-title="text"
-        item-value="value"
-        label="Niveau"
-        variant="solo"
-        class="w-25 mr-2"
-      ></v-select>
+              <v-select
+                v-model="selectedMajor"
+                :items="majors"
+                :hint="selectedMajor ? `${selectedMajor}` : ''"
+                persistent-hint
+                item-title="text"
+                item-value="value"
+                label="Filière"
+                variant="solo"
+                class="w-25 mr-2"
+              ></v-select>
 
-      <v-select
-        v-model="selectedSemester"
-        :items="semesters"
-        :hint="selectedSemester ? `${selectedSemester}` : ''"
-        persistent-hint
-        item-title="text"
-        item-value="value"
-        label="Semestre"
-        variant="solo"
-        class="w-25 mr-2"
-      ></v-select>
+              <v-select
+                v-model="selectedLevel"
+                :items="levels"
+                :hint="selectedLevel ? `${selectedLevel}` : ''"
+                persistent-hint
+                item-title="text"
+                item-value="value"
+                label="Niveau"
+                variant="solo"
+                class="w-25 mr-2"
+              ></v-select>
 
-      <v-select
-        v-model="selectedYear"
-        :items="years"
-        :hint="selectedYear ? `${selectedYear}` : ''"
-        persistent-hint
-        item-title="text"
-        item-value="value"
-        label="Année"
-        variant="solo"
-        class="w-25 mr-2"
-      ></v-select>
-    </div>
+              <v-select
+                v-model="selectedSemester"
+                :items="semesters"
+                :hint="selectedSemester ? `${selectedSemester}` : ''"
+                persistent-hint
+                item-title="text"
+                item-value="value"
+                label="Semestre"
+                variant="solo"
+                class="w-25 mr-2"
+              ></v-select>
 
-    <div class="button-container w-25">
-      <v-btn icon @click="downloadPDF" class="ml-sm-16">
-        <span>
-          <i class="fas fa-file-download"></i>
-        </span>
-      </v-btn>
-    </div>
-  </div>
+              <v-select
+                v-model="selectedYear"
+                :items="years"
+                :hint="selectedYear ? `${selectedYear}` : ''"
+                persistent-hint
+                item-title="text"
+                item-value="value"
+                label="Année"
+                variant="solo"
+                class="w-25 mr-2"
+              ></v-select>
+            </div>
 
-  <div class="d-flex m-auto w-25 mt-5">
-    <p class="ml-10">
-      <span class="font-weight-bold">Année académique</span> : <span v-if="selectedYear">{{ selectedYear }}</span><span v-else>2022/2023</span>
-    </p>
-    <p class="ml-10">
-      <span class="font-weight-bold">Filière</span> : <span v-if="selectedMajor">{{ selectedMajor }}</span><span v-else>TOUTES</span>
-    </p>
-  </div>
+            <div class="button-container w-25">
+              <v-btn icon @click="downloadPDF" class="ml-sm-16">
+                <span>
+                  <i class="fas fa-file-download"></i>
+                </span>
+              </v-btn>
+            </div>
+          </div>
 
-  <div class="carousel-container w-75 m-auto">
-    <div class="carousel-content d-flex justify-content-between align-items-center">
-      <v-btn icon @click="prevTimetable" class="carousel-button">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
+          <div class="d-flex m-auto w-25 mt-5">
+            <p class="ml-10">
+              <span class="font-weight-bold">Année académique</span> : <span v-if="selectedYear">{{ selectedYear }}</span><span v-else>2022/2023</span>
+            </p>
+            <p class="ml-10">
+              <span class="font-weight-bold">Filière</span> : <span v-if="selectedMajor">{{ selectedMajor }}</span><span v-else>TOUTES</span>
+            </p>
+          </div>
 
-      <transition name="time-table-transition">
-        <time-table :time-table="currentTimetable" :key="currentIndex" class="w-75 m-auto mt-5"></time-table>
-      </transition>
+          <div class="carousel-container w-75 m-auto">
+            <div class="carousel-content d-flex justify-content-between align-items-center">
+              <v-btn icon @click="prevTimetable" class="carousel-button">
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
 
-      <v-btn icon @click="nextTimetable" class="carousel-button">
-        <v-icon>mdi-chevron-right</v-icon>
-      </v-btn>
-    </div>
-  </div>
+              <transition name="time-table-transition">
+                <time-table :time-table="currentTimetable" :key="currentIndex" class="w-75 m-auto mt-5"></time-table>
+              </transition>
+
+              <v-btn icon @click="nextTimetable" class="carousel-button">
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </div>
+          </div>
+        </template>
+    </default-layout>
   <!-- ... le reste du code ... -->
 </template>
   
   <script>
+  import DefaultLayout from "@/components/DefaultLayout.vue"
   import TimeTable from './components/TimeTable.vue';
   import 'animate.css';
 
   
   export default {
     components: {
+        DefaultLayout,
         TimeTable,
     },
     data() {
