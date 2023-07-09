@@ -49,7 +49,7 @@ export default {
                 (res) => {
                     this.message = res.data.message
                     this.successful = true
-                    this.$router.push("/admins/classrooms/create")
+                    this.$router.push("/admin/classrooms/create")
                 },
                 (error) => {
                     this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()

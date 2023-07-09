@@ -4,7 +4,7 @@ import authHeader from "./auth-header";
 // API endpoints
 const BASE_URL = 'http://127.0.0.1:8000/';
 const DATA_URL = BASE_URL + 'unité/';
-// const PLANNING_URL = BASE_URL + 'plannification/';
+const PLANNING_URL = BASE_URL + 'plannification/';
 const USER_URL = BASE_URL + 'utilisateur/';
 
 class AdminService {
@@ -17,7 +17,7 @@ class AdminService {
         }
         return axios
             .post(
-                DATA_URL + 'creer_salle/', 
+                PLANNING_URL + 'salles_disponibles/', 
                 formData,
                 {
                     headers: authHeader()
