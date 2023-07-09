@@ -21,6 +21,11 @@
                 <font-awesome-icon icon="search"></font-awesome-icon>
             </span>
         </template>
+        <template v-slot:deletion>
+            <span class="text-danger">
+                <font-awesome-icon icon="trash" @click="handleDelete"></font-awesome-icon>
+            </span>
+        </template>
         <template v-slot:validation>
             <div class="form-group row">
                 <div class="col-md-4 d-none d-md-block"></div>
@@ -56,6 +61,19 @@ export default {
         handleUpdate() {
             const data = this.$refs.form.formData
             adminService.updateCourse(data).then(
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
+                    this.$router.push("/admin/courses/update")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
+        },
+        handleDelete() {
+            const data = this.$refs.form.formData
+            adminService.deleteCourse(data).then(
                 (res) => {
                     this.message = res.data.message
                     this.successful = true
