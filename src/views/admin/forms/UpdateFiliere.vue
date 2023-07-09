@@ -6,11 +6,13 @@
         :codeIndex="'ex. INF'"
         :nameIndex="'ex. INFORMATIQUE'"
         :depLabel="'Code du d&eacute;partement'"
-        @submit="handleFormSubmit"
+        :codeNewLabel="'Nouveau code de la fili&egrave;re'"
+        :codeNewIndex="'ex. INFO'"
+        ref="form"
     >
         <template v-slot:message>
             <div v-if="message" class="col-12">
-                <div class="border border-danger text-danger px-4 py-3 rounded">
+                <div :class="successful ? 'border border-success text-success px-4 py-3 rounded' : 'border border-danger text-danger px-4 py-3 rounded'">
                     {{ message }}
                 </div>
             </div>
@@ -24,7 +26,7 @@
             <div class="form-group row">
                 <div class="col-md-4 d-none d-md-block"></div>
                 <div class="col-12 col-md-4">
-                    <button type="submit" class="btn btn-grad w-100">Confirmer</button>
+                    <button class="btn btn-grad w-100" @click="handleUpdate">Confirmer</button>
                 </div>
                 <div class="col-md-4 d-none d-md-block"></div>
             </div>
@@ -34,6 +36,7 @@
 
 <script>
 import UpdateForm from '@/components/admin/UpdateForm.vue'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "UpdateFiliere",
@@ -42,6 +45,7 @@ export default {
     },
     data() {
         return {
+            successful: false,
             loading: false,
             message: "",
             show: true,
@@ -50,8 +54,18 @@ export default {
     computed: {},
     created() {},
     methods: {
-        handleFormSubmit(data) {
-            console.log(data)
+        handleUpdate() {
+            const data = this.$refs.form.formData
+            adminService.updateFiliere(data).then(
+                (res) => {
+                    this.message = res.data.message
+                    this.successful = true
+                    this.$router.push("/admin/filieres/update")
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                }
+            )
         }
     }
 }

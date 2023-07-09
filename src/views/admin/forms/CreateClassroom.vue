@@ -45,7 +45,6 @@ export default {
     created() {},
     methods: {
         handleFormSubmit(data) {
-            console.log(data)
             adminService.addClassroom(data).then(
                 (res) => {
                     this.message = res.data.message

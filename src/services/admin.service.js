@@ -9,13 +9,34 @@ const USER_URL = BASE_URL + 'utilisateur/';
 
 class AdminService {
     addClassroom(data) {
+        let formData = new FormData()
+        formData.append('codeSalle', data.code)
+        formData.append('nomSalle', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/salles', 
+                DATA_URL + 'creer_salle/', 
+                formData,
                 {
-                    codeUE: data.code,
-                    intitule: data.name
-                },
+                    headers: authHeader()
+                }
+            );
+    }
+
+    updateClassroom(data) {
+        let formData = new FormData()
+        formData.append('codeSalle', data.code)
+        formData.append('nomSalle', data.name)
+        formData.append('codeNew', data.codeNew)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'modifier_salle/', 
+                formData,
                 {
                     headers: authHeader()
                 }
@@ -110,14 +131,54 @@ class AdminService {
             );
     }
 
-    addLevel(data) {
+    updateFiliere(data) {
+        let formData = new FormData()
+        formData.append('codeFiliere', data.code)
+        formData.append('codeNew', data.codeNew)
+        formData.append('nomFiliere', data.name)
+        formData.append('codeDepartement', data.dep)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
         return axios
             .post(
-                DATA_URL + '/niveaux', 
+                DATA_URL + 'modifier_filiere/', 
+                formData,
                 {
-                    code: data.code,
-                    name: data.name
-                },
+                    headers: authHeader()
+                }
+            );
+    }
+
+    addLevel(data) {
+        let formData = new FormData()
+        formData.append('codeNiveau', data.code)
+        formData.append('nomNiveau', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'creer_niveau/', 
+                formData,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    updateLevel(data) {
+        let formData = new FormData()
+        formData.append('codeNiveau', data.code)
+        formData.append('codeNew', data.codeNew)
+        formData.append('nomNiveau', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'modifier_niveau/', 
+                formData,
                 {
                     headers: authHeader()
                 }
@@ -134,6 +195,24 @@ class AdminService {
         return axios
             .post(
                 DATA_URL + 'creer_option/', 
+                formData,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    updateOption(data) {
+        let formData = new FormData()
+        formData.append('codeOption', data.code)
+        formData.append('codeNew', data.codeNew)
+        formData.append('nomOption', data.name)
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+        return axios
+            .post(
+                DATA_URL + 'modifier_option/', 
                 formData,
                 {
                     headers: authHeader()

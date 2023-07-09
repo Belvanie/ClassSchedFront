@@ -28,13 +28,13 @@
                                 </span>
                             </div>
                         </div>
-                        <Form @submit="handleSubmit" class="pt-3 mx-5 px-5" :validation-schema="schema">
+                        <Form class="pt-3 mx-5 px-5" :validation-schema="schema">
                             <div class="form-group row g-3 mb-2">
                                 <div class="col-12 col-md-4">
                                     <label class="col-form-label">{{ codeLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="code" id="code" v-model="code"/>
+                                    <Field class="form-control" name="code" id="code" v-model="formData.code"/>
                                     <span class="form-text">
                                         {{ codeIndex }}
                                     </span>
@@ -48,7 +48,7 @@
                                     <label class="col-form-label">{{ codeNewLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="codeNew" id="codeNew" v-model="codeNew"/>
+                                    <Field class="form-control" name="codeNew" id="codeNew" v-model="formData.codeNew"/>
                                     <span class="form-text">
                                         {{ codeNewIndex }}
                                     </span>
@@ -62,7 +62,7 @@
                                     <label class="col-form-label">{{ nameLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="name" id="name" v-model="name"/>
+                                    <Field class="form-control" name="name" id="name" v-model="formData.name"/>
                                     <span class="form-text">
                                         {{ nameIndex }}
                                     </span>
@@ -76,7 +76,7 @@
                                     <label class="col-form-label">{{ depLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="dep" id="dep" v-model="dep"/>
+                                    <Field class="form-control" name="dep" id="dep" v-model="formData.dep"/>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
                             </div>
@@ -143,24 +143,15 @@ export default {
 
         return {
             schema,
-            name: "",
-            code: "",
-            codeNew: "",
-            dep: ""
+            formData : {
+                name: "",
+                code: "",
+                codeNew: "",
+                dep: ""
+            }
         }
     },
-    methods: {
-        handleSubmit() {
-            const formData = {
-                name: this.name,
-                code: this.code,
-                codeNew: this.codeNew,
-                dep: this.dep
-            }
-            console.log(formData)
-            this.$emit("submit", formData)
-        },
-    }
+    methods: {}
 }
 </script>
 

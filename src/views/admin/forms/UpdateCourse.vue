@@ -7,7 +7,7 @@
         :codeIndex="'ex. PHY 3022'"
         :codeNewIndex="'ex. PHY 3022'"
         :nameIndex="'ex. Thermodynamique'"
-        @submit="handleUpdate"
+        ref="form"
     >
         <template v-slot:message>
             <div v-if="message" class="col-12">
@@ -25,7 +25,7 @@
             <div class="form-group row">
                 <div class="col-md-4 d-none d-md-block"></div>
                 <div class="col-12 col-md-4">
-                    <button type="submit" class="btn btn-grad w-100">Confirmer</button>
+                    <button class="btn btn-grad w-100" @click="handleUpdate">Confirmer</button>
                 </div>
                 <div class="col-md-4 d-none d-md-block"></div>
             </div>
@@ -53,7 +53,8 @@ export default {
     computed: {},
     created() {},
     methods: {
-        handleUpdate(data) {
+        handleUpdate() {
+            const data = this.$refs.form.formData
             adminService.updateCourse(data).then(
                 (res) => {
                     this.message = res.data.message
