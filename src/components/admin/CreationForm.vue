@@ -42,7 +42,10 @@
                                     <label class="col-form-label">{{ depLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="dep" id="dep" v-model="dep"/>
+                                    <Field class="form-control" name="dep" v-model="dep" as="select">
+                                        <option value="">Choisir le code...</option>
+                                        <option v-for="dept in departments" :value="dept.codeDepartement" :key="dept.codeDepartement">{{ dept.codeDepartement }}</option>
+                                    </Field>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
                             </div>
@@ -59,6 +62,7 @@
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "CreationForm",
@@ -81,9 +85,6 @@ export default {
         },
         depLabel: {
             type: String
-        },
-        departments: {
-            type: Array
         }
     },
     components: {
@@ -101,8 +102,26 @@ export default {
             schema,
             name: "",
             code: "",
-            dep: ""
+            dep: "",
+            departments: []
         }
+    },
+    created() {
+        console.log(this.departments)
+        this.departments.push({'codeDepartement':'BCH'})
+        this.departments.forEach(dept => {
+            console.log(dept)
+        });
+        adminService.getAllDepartments().then(
+            (res) => {
+                this.departments = res.data
+                this.successful = true
+                this.$router.push("/admin/filieres/update")
+            },
+            (error) => {
+                this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            }
+        )
     },
     methods: {
         handleSubmit() {

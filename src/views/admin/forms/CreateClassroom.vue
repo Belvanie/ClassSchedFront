@@ -47,7 +47,7 @@ export default {
         handleFormSubmit(data) {
             adminService.addClassroom(data).then(
                 (res) => {
-                    this.message = res.data.message
+                    this.message = res.data.message || "Succes"
                     this.successful = true
                     this.$router.push("/admin/classrooms/create")
                 },

@@ -27,16 +27,26 @@ class AdminService {
 
     updateClassroom(data) {
         let formData = new FormData()
-        formData.append('codeSalle', data.code)
+        formData.append('codeSalle', data.codeNew)
         formData.append('nomSalle', data.name)
-        formData.append('codeNew', data.codeNew)
         for (var pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
         return axios
-            .post(
-                DATA_URL + 'modifier_salle/', 
+            .patch(
+                PLANNING_URL + 'salles_disponibles/' + data.code + '/', 
                 formData,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    deleteClassroom(data) {
+        let url = PLANNING_URL + 'salles_disponibles/' + data.code + '/'
+        return axios
+            .delete(
+                url, 
                 {
                     headers: authHeader()
                 }
@@ -78,6 +88,17 @@ class AdminService {
             );
     }
 
+    deleteCourse(data) {
+        let url = DATA_URL + 'supprimer_ue/?codeUE=' + data.code
+        return axios
+            .get(
+                url, 
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
     addDepartment(data) {
         let formData = new FormData()
         formData.append('codeDepartement', data.code)
@@ -107,6 +128,27 @@ class AdminService {
             .post(
                 DATA_URL + 'modifier_departement/',
                 formData,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    deleteDepartment(data) {
+        let url = DATA_URL + 'supprimer_departement/?codeDepartement=' + data.code
+        return axios
+            .get(
+                url, 
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    getAllDepartments() {
+        return axios
+            .get(
+                DATA_URL + 'tous_departements/',
                 {
                     headers: authHeader()
                 }
@@ -150,6 +192,17 @@ class AdminService {
             );
     }
 
+    deleteFiliere(data) {
+        let url = DATA_URL + 'supprimer_filiere/?codeFiliere=' + data.code
+        return axios
+            .get(
+                url, 
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
     addLevel(data) {
         let formData = new FormData()
         formData.append('codeNiveau', data.code)
@@ -185,6 +238,17 @@ class AdminService {
             );
     }
 
+    deleteLevel(data) {
+        let url = DATA_URL + 'supprimer_niveau/?codeNiveau=' + data.code
+        return axios
+            .get(
+                url, 
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
     addOption(data) {
         let formData = new FormData()
         formData.append('codeOption', data.code)
@@ -214,6 +278,17 @@ class AdminService {
             .post(
                 DATA_URL + 'modifier_option/', 
                 formData,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    deleteOption(data) {
+        let url = DATA_URL + 'supprimer_option/?codeOption=' + data.code
+        return axios
+            .get(
+                url, 
                 {
                     headers: authHeader()
                 }

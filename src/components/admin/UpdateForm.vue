@@ -23,9 +23,7 @@
                                 <p class="fw-bolder mx-3">Modifiez les champs voulus</p>
                             </div>
                             <div class="col-2">
-                                <span class="text-danger">
-                                    <font-awesome-icon icon="trash"></font-awesome-icon>
-                                </span>
+                                <slot name="deletion"></slot>
                             </div>
                         </div>
                         <Form class="pt-3 mx-5 px-5" :validation-schema="schema">
@@ -76,7 +74,10 @@
                                     <label class="col-form-label">{{ depLabel }}</label>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <Field class="form-control" name="dep" id="dep" v-model="formData.dep"/>
+                                    <Field class="form-control" name="dep" v-model="formData.dep" as="select">
+                                        <option value="">Choisir le code...</option>
+                                        <option v-for="dept in departments" :value="dept.codeDepartement" :key="dept.codeDepartement">{{ dept.codeDepartement }}</option>
+                                    </Field>
                                 </div>
                                 <div class="col-12 col-md-4"></div>
                             </div>
@@ -93,6 +94,7 @@
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as yup from 'yup'
+import adminService from '@/services/admin.service'
 
 export default {
     name: "UpdateForm",
@@ -126,7 +128,7 @@ export default {
         },
         depLabel: {
             type: String
-        }
+        },
     },
     components: {
         Form,
@@ -148,8 +150,26 @@ export default {
                 code: "",
                 codeNew: "",
                 dep: ""
-            }
+            },
+            departments: []
         }
+    },
+    created() {
+        console.log(this.departments)
+        this.departments.push({'codeDepartement':'BCH'})
+        this.departments.forEach(dept => {
+            console.log(dept)
+        });
+        adminService.getAllDepartments().then(
+            (res) => {
+                this.departments = res.data
+                this.successful = true
+                this.$router.push("/admin/filieres/update")
+            },
+            (error) => {
+                this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            }
+        )
     },
     methods: {}
 }
