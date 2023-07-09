@@ -1,15 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Plannifier from '../views/Plannifier.vue'
-import Planning from '../views/Planning.vue'
-import Home from '../views/Home.vue'
-import Reservations from '../views/Reservations.vue'
-import Reserver from '../views/Reserver.vue'
 
 const routes = [
   {
     path: '',
     name: 'home',
-    component: () => import("@/views/HomeView.vue")
+    component: () => import("@/views/HomeView.vue"),
   },
   {
     path: '/admin',
@@ -147,29 +142,19 @@ const routes = [
     component: () => import('@/views/admin/authentication/RegisterView.vue')
   },
   {
-    path: '/plannifier/',
-    name: 'plannifier',
-    component: Plannifier
-  },
-  {
     path: '/planning/',
     name: 'planning',
-    component: Planning
+    component: () => import("@/views/Planning.vue")
   },
   {
     path: '/accueil/',
-    name: 'home',
-    component: Home
+    name: 'accueil',
+    component: () => import("@/views/HomeView.vue")
   },
   {
     path: '/reservations/',
     name: 'reservations',
-    component: Reservations
-  },
-  {
-    path: '/reserver/',
-    name: 'reserver',
-    component: Reserver
+    component: () => import("@/views/Reservations.vue")
   },
 ]
 

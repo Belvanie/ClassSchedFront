@@ -20,6 +20,7 @@
                     <div class="row">
                         <slot name="main-content"></slot>
                     </div>
+                    <br><br><br><br><br><br><br><br><br>
                     <Footer/>
                 </div>
             </div>

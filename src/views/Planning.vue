@@ -1,5 +1,5 @@
 <template>
-  <h2 class="mt-5">EMPLOI DE TEMPS - TIMETABLE</h2>
+  <h2 class="mt-5 text-center">EMPLOI DE TEMPS - TIMETABLE</h2>
   <br/>
   <div class="menu-container w-75 m-auto">
     <div class="text-left">

@@ -64,11 +64,6 @@
   
   <script>
 
-  function isDataEmpty(data) {
-    const keys = Object.keys(data);
-    return keys.length === 0;
-  }
-
   export default {
     props: {
       initialData: {
