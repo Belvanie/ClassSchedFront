@@ -83,7 +83,7 @@
                 :disabled="!selectedLevel"
                 ></v-select>
 
-                <v-btn class="ml-sm-16" icon color="white" :disabled="!selectedOption" :class="{ 'disabled': !selectedOption }" @click="loadEmploi">
+                <v-btn class="ml-sm-16" icon color="white" :disabled="!(selectedOption && selectedDateDebut && selectedDateFin)" :class="{ 'disabled': !(selectedOption && selectedDateDebut && selectedDateFin) }" @click="loadEmploi">
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
             </div>
@@ -97,6 +97,32 @@
                     <v-icon>mdi-check</v-icon>
                 </v-btn>
             </div>
+
+            </div>
+
+            <div class="row">
+                <div class="row w-50 m-auto">
+
+                    <div class="form-group w-25 mr-2">
+                        <input type="date" id="date_debut" class="form-control" style="height: 55px; box-shadow: 0 2px 0px rgba(0, 0, 0, .3);" title="Date de début" v-model="selectedDateDebut">
+                    </div>
+
+                    <div class="form-group w-25 mr-2">
+                        <input type="date" id="date_fin" class="form-control" style="height: 55px; box-shadow: 0 2px 0px rgba(0, 0, 0, .3);" title="Date de début" v-model="selectedDateFin">
+                    </div>
+
+                    <v-select
+                        v-model="selectedYear"
+                        :items="years"
+                        :hint="selectedYear ? `${selectedYear}` : ''"
+                        persistent-hint
+                        item-title="text"
+                        item-value="value"
+                        label="Année"
+                        variant="solo"
+                        class="w-25 mr-2"
+                    ></v-select>
+                </div>
             </div>
             <time-table-edit :initial-data="initialData" @selected-data-changed="handleSelectedDataChange" v-if="!isLoading" class="w-75 m-auto"></time-table-edit>
             
@@ -121,6 +147,8 @@
 
     import adminService from '@/services/admin.service'
     import TimeTableEdit from '@/components/admin/TimeTableEdit.vue'
+
+    import { convertToTimetable } from '@/views/utils.js';
     import { toRaw } from 'vue'
 
     export default {
@@ -154,10 +182,18 @@
                 options: [],
                 majors: [],
                 levels: [],
+                years: [
+                { text: '2023/2024', value: '2023/2024' },
+                { text: '2022/2023', value: '2022/2023' },
+                ],
+
                 selectedTeacher: null,
                 selectedOption: null,
                 selectedMajor: null,
                 selectedLevel: null,
+                selectedDateDebut: '2023-10-19',
+                selectedDateFin: '2024-02-27',
+                selectedYear: "2023/2024",
     
                 isLoading: false, // Variable indiquant si le chargement est en cours
                 isSuccess: false, // Variable indiquant si l'opération a réussi
@@ -165,6 +201,15 @@
             };
         },
         watch: {
+            selectedDateDebut(selectedDateDebut) {
+                // Code à exécuter.
+            },
+            selectedDateFin(selectedDateFin) {
+                // Code à exécuter.
+            },
+            selectedYear(selectedYear) {
+                // Code à exécuter.
+            },
             selectedMajor(selectedMajor) {
 
                 // On rempli la liste des niveaux de la filière.
@@ -209,6 +254,19 @@
             }
         },
         created() {
+
+
+            // On rempli la liste des filières.
+            adminService.getTimeTable({id: 'L1', annee: '2023'}).then(
+                (response) => {
+                    var timetable = response.data;
+                    convertToTimetable(timetable)
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                    console.log("Error : " + this.message)
+                }
+            )
 
             // On rempli la liste des filières.
             adminService.getAllFilieres().then(

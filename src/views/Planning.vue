@@ -32,7 +32,7 @@
               </p>
             </div>
 
-            <div class="select-container ml-2">
+            <div class="select-container ml-2 w-100 row">
 
               <v-select
                 v-model="selectedMajor"
@@ -43,7 +43,7 @@
                 item-value="value"
                 label="Filière"
                 variant="solo"
-                class="w-25 mr-2"
+                class="col-lg-2 col-sm-12 mr-2"
               ></v-select>
 
               <v-select
@@ -55,20 +55,16 @@
                 item-value="value"
                 label="Niveau"
                 variant="solo"
-                class="w-25 mr-2"
+                class="col-lg-2 col-sm-12 mr-2"
               ></v-select>
 
-              <v-select
-                v-model="selectedSemester"
-                :items="semesters"
-                :hint="selectedSemester ? `${selectedSemester}` : ''"
-                persistent-hint
-                item-title="text"
-                item-value="value"
-                label="Semestre"
-                variant="solo"
-                class="w-25 mr-2"
-              ></v-select>
+              <div class="form-group col-lg-2 col-sm-12 mr-2">
+                  <input type="date" id="date_debut" class="form-control" style="height: 65px; box-shadow: 0 2px 0px rgba(0, 0, 0, .3);" title="Date de début" v-model="selectedDateDebut">
+              </div>
+
+              <div class="form-group col-lg-2 col-sm-12 mr-2">
+                  <input type="date" id="date_fin" class="form-control" style="height: 65px; box-shadow: 0 2px 0px rgba(0, 0, 0, .3);" title="Date de début" v-model="selectedDateFin">
+              </div>
 
               <v-select
                 v-model="selectedYear"
@@ -79,10 +75,10 @@
                 item-value="value"
                 label="Année"
                 variant="solo"
-                class="w-25 mr-2"
+                class="col-lg-2 col-sm-12 mr-2"
               ></v-select>
 
-              <v-btn class="ml-sm-16" style="opacity: 0.5; pointer-events: none;" icon color="white" :disabled="!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear" :style="{ opacity: (!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear) ? '0.5' : '1', pointerEvents: (!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear) ? 'none' : 'auto' }" @click="loadEmplois">
+              <v-btn class="ml-md-16" style="opacity: 0.5; pointer-events: none;" icon color="white" :disabled="!(selectedMajor && selectedLevel && selectedDateDebut && selectedDateFin && selectedYear)" :style="{ opacity: !(selectedMajor && selectedLevel &&  selectedDateDebut && selectedDateFin && selectedYear) ? '0.5' : '1', pointerEvents: !(selectedMajor && selectedLevel &&  selectedDateDebut && selectedDateFin && selectedYear) ? 'none' : 'auto' }" @click="loadEmplois">
                   <v-icon>mdi-magnify</v-icon>
               </v-btn>
             </div>
@@ -189,8 +185,9 @@
         ],
         selectedMajor: null,
         selectedLevel: null,
-        selectedSemester: null,
-        selectedYear: null,
+        selectedDateDebut: '2023-10-19',
+        selectedDateFin: '2024-02-27',
+        selectedYear: "2023/2024",
         
         timetables: [],
         currentIndex: 0,
@@ -206,6 +203,15 @@
       }
     },
     watch: {
+        selectedDateDebut(selectedDateDebut) {
+            // Code à exécuter.
+        },
+        selectedDateFin(selectedDateFin) {
+            // Code à exécuter.
+        },
+        selectedYear(selectedYear) {
+            // Code à exécuter.
+        },
         selectedMajor(selectedMajor) {
 
             // On rempli la liste des niveaux de la filière.

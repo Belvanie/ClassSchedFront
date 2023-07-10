@@ -344,6 +344,16 @@ class AdminService {
                 }
             );
     }
+
+    getTimeTable(data) {
+        return axios
+            .get(
+                PLANNING_URL + 'emploi_niveau/' + data.id + '/' + data.annee + '/',
+                {
+                    headers: authHeader()
+                }
+            );
+    }
 }
 
 export default new AdminService();
