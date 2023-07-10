@@ -155,16 +155,12 @@ export default {
         }
     },
     created() {
-        console.log(this.departments)
-        this.departments.push({'codeDepartement':'BCH'})
         this.departments.forEach(dept => {
             console.log(dept)
         });
         adminService.getAllDepartments().then(
             (res) => {
                 this.departments = res.data
-                this.successful = true
-                this.$router.push("/admin/filieres/update")
             },
             (error) => {
                 this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
