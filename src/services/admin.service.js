@@ -203,6 +203,16 @@ class AdminService {
             );
     }
 
+    getAllFilieres() {
+        return axios
+            .get(
+                DATA_URL + 'toutes_filieres/',
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
     addLevel(data) {
         let formData = new FormData()
         formData.append('codeNiveau', data.code)
@@ -249,6 +259,16 @@ class AdminService {
             );
     }
 
+    getLevelsFiliere(codeFiliere) {
+        return axios
+            .get(
+                DATA_URL + 'niveaux_filiere/?codeFiliere=' + codeFiliere,
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
     addOption(data) {
         let formData = new FormData()
         formData.append('codeOption', data.code)
@@ -289,6 +309,16 @@ class AdminService {
         return axios
             .get(
                 url, 
+                {
+                    headers: authHeader()
+                }
+            );
+    }
+
+    getOptionsLevel(codeLevel) {
+        return axios
+            .get(
+                DATA_URL + 'option_niveau/?codeNiveau=' + codeLevel,
                 {
                     headers: authHeader()
                 }

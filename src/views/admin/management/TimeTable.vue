@@ -42,18 +42,7 @@
                 label="Enseignant"
                 variant="solo"
                 class="w-25 mr-2"
-                ></v-select>
-
-                <v-select
-                v-model="selectedOption"
-                :items="options"
-                :hint="selectedOption ? `${selectedOption}` : ''"
-                persistent-hint
-                item-title = "text"
-                item-value = "value"
-                label="Option"
-                variant="solo"
-                class="w-25 mr-2"
+                :disabled="true"
                 ></v-select>
 
                 <v-select
@@ -78,16 +67,34 @@
                 label="Niveau"
                 variant="solo"
                 class="w-25"
+                :disabled="!selectedMajor"
                 ></v-select>
+
+                <v-select
+                v-model="selectedOption"
+                :items="options"
+                :hint="selectedOption ? `${selectedOption}` : ''"
+                persistent-hint
+                item-title = "text"
+                item-value = "value"
+                label="Option"
+                variant="solo"
+                class="w-25 mr-2"
+                :disabled="!selectedLevel"
+                ></v-select>
+
+                <v-btn class="ml-sm-16" icon color="white" :disabled="!selectedOption" :class="{ 'disabled': !selectedOption }" @click="loadEmploi">
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn>
             </div>
 
             <div class="button-container mr-sm-12">
                 <v-btn class="mr-sm-16" icon color="red" @click="deleteEmploi">
-                <v-icon>mdi-delete</v-icon>
+                    <v-icon>mdi-delete</v-icon>
                 </v-btn>
 
                 <v-btn class="mr-sm-16" icon color="green" @click="confirmEmploi">
-                <v-icon>mdi-check</v-icon>
+                    <v-icon>mdi-check</v-icon>
                 </v-btn>
             </div>
             </div>
@@ -112,6 +119,7 @@
 <script>
     import BasicLayout from "@/components/BasicLayout.vue"
 
+    import adminService from '@/services/admin.service'
     import TimeTableEdit from '@/components/admin/TimeTableEdit.vue'
     import { toRaw } from 'vue'
 
@@ -143,21 +151,9 @@
                 { text: 'Enseignant 2', value: 'teacher2' },
                 { text: 'Enseignant 3', value: 'teacher3' }
                 ],
-                options: [
-                { text: 'Option 1', value: 'option1' },
-                { text: 'Option 2', value: 'option2' },
-                { text: 'Option 3', value: 'option3' }
-                ],
-                majors: [
-                { text: 'Filière 1', value: 'major1' },
-                { text: 'Filière 2', value: 'major2' },
-                { text: 'Filière 3', value: 'major3' }
-                ],
-                levels: [
-                { text: 'Niveau 1', value: 'level1' },
-                { text: 'Niveau 2', value: 'level2' },
-                { text: 'Niveau 3', value: 'level3' }
-                ],
+                options: [],
+                majors: [],
+                levels: [],
                 selectedTeacher: null,
                 selectedOption: null,
                 selectedMajor: null,
@@ -168,9 +164,84 @@
                 isError: false, // Variable indiquant si l'opération a réussi
             };
         },
+        watch: {
+            selectedMajor(selectedMajor) {
+
+                // On rempli la liste des niveaux de la filière.
+                adminService.getLevelsFiliere(selectedMajor).then(
+                    (response) => {
+                        var niveaux = response.data;
+
+                        this.levels = niveaux.map((niveau) => {
+                            return {
+                                text: niveau.nom,
+                                value: niveau.codeNiveau,
+                            };
+                        });
+                        this.selectedLevel = null;
+                    },
+                    (error) => {
+                        this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                        console.log("Error : " + this.message)
+                    }
+                )
+            },
+            selectedLevel(selectedLevel) {
+
+                // On rempli la liste des niveaux de la filière.
+                adminService.getOptionsLevel(selectedLevel).then(
+                    (response) => {
+                        var options = response.data;
+
+                        this.options = options.map((option) => {
+                            return {
+                                text: option.nom,
+                                value: option.codeOption,
+                            };
+                        });
+                        this.selectedOption = null;
+                    },
+                    (error) => {
+                        this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                        console.log("Error : " + this.message)
+                    }
+                )
+            }
+        },
+        created() {
+
+            // On rempli la liste des filières.
+            adminService.getAllFilieres().then(
+                (response) => {
+                    var filieres = response.data;
+
+                    this.majors = filieres.map((filiere) => {
+                        return {
+                            text: filiere.nom,
+                            value: filiere.codeFiliere,
+                        };
+                    });
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                    console.log("Error : " + this.message)
+                }
+            )
+        },
         methods: {
             // ... le reste du code ...
 
+            loadEmploi() {
+                this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
+
+                // Effectuez ici votre logique de traitement ou d'appel à l'API
+
+                // Simulez une pause de 2 secondes avant de terminer le chargement
+                setTimeout(() => {
+                    this.isLoading = false; // Fin du chargement après un délai simulé
+                }, 2000);
+                // Logique de suppression de l'emploi
+            },
             deleteEmploi() {
                 this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
 
@@ -189,6 +260,7 @@
                 // Logique de suppression de l'emploi
             },
             confirmEmploi() {
+
                 this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
 
                 // Effectuez ici votre logique de traitement ou d'appel à l'API
@@ -273,4 +345,8 @@
         z-index: 9999;
     }
 
+    .disabled {
+        opacity: 0.5; /* Réduire l'opacité pour indiquer qu'il est désactivé */
+        pointer-events: none; /* Désactiver les interactions avec le bouton */
+    }
 </style>

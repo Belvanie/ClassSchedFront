@@ -4,6 +4,19 @@
         </template>
 
         <template v-slot:main-content>
+            
+          <v-alert
+              v-if="isError"
+              dismissible
+              type="error"
+              prominent
+              :class="{ 'fade-enter-active': !isError, 'fade-leave-active': isError }"
+              class="alert-width position-fixed top-0 start-50 translate-middle-x mt-10"
+              @input="dismissAlert"
+          >
+              Erreur ! Une erreur s'est produite lors de l'opération.
+          </v-alert>
+
           <h2 class="mt-5 text-center">EMPLOI DE TEMPS - TIMETABLE</h2>
           <br/>
           <div class="menu-container w-75 m-auto">
@@ -19,7 +32,7 @@
               </p>
             </div>
 
-            <div class="select-container ml-16">
+            <div class="select-container ml-2">
 
               <v-select
                 v-model="selectedMajor"
@@ -68,6 +81,10 @@
                 variant="solo"
                 class="w-25 mr-2"
               ></v-select>
+
+              <v-btn class="ml-sm-16" style="opacity: 0.5; pointer-events: none;" icon color="white" :disabled="!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear" :style="{ opacity: (!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear) ? '0.5' : '1', pointerEvents: (!selectedMajor && !selectedLevel && !selectedSemester && !selectedYear) ? 'none' : 'auto' }" @click="loadEmplois">
+                  <v-icon>mdi-magnify</v-icon>
+              </v-btn>
             </div>
 
             <div class="button-container w-25">
@@ -95,8 +112,21 @@
               </v-btn>
 
               <transition name="time-table-transition">
-                <time-table :time-table="currentTimetable" :key="currentIndex" class="w-75 m-auto mt-5"></time-table>
+                <time-table :time-table="currentTimetable" :key="currentIndex" v-if="!isLoading" class="w-75 m-auto mt-5"></time-table>
               </transition>
+            
+              <div class="loader-container mt-16">
+
+                  <br><br><br><br><br><br><br>
+                  <v-progress-circular
+                      v-if="isLoading"
+                      indeterminate
+                      color="primary"
+                  ></v-progress-circular>
+                  <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+                  <!-- Contenu de votre application -->
+              </div>
 
               <v-btn icon @click="nextTimetable" class="carousel-button">
                 <v-icon>mdi-chevron-right</v-icon>
@@ -109,6 +139,7 @@
 </template>
   
   <script>
+  import adminService from '@/services/admin.service'
   import DefaultLayout from "@/components/DefaultLayout.vue"
   import TimeTable from './components/TimeTable.vue';
   import 'animate.css';
@@ -149,20 +180,9 @@
             },
             // ... autres heures de la journée
         },
-        majors: [
-          { text: 'Filière 1', value: 'major1' },
-          { text: 'Filière 2', value: 'major2' },
-          { text: 'Filière 3', value: 'major3' }
-        ],
-        levels: [
-          { text: 'Niveau 1', value: 'level1' },
-          { text: 'Niveau 2', value: 'level2' },
-          { text: 'Niveau 3', value: 'level3' }
-        ],
-        semesters: [
-          { text: 'Semestre 1', value: 'semester1' },
-          { text: 'Semestre 2', value: 'semester2' },
-        ],
+        majors: [],
+        levels: [],
+        semesters: [],
         years: [
           { text: '2023/2024', value: '2023/2024' },
           { text: '2022/2023', value: '2022/2023' },
@@ -174,7 +194,10 @@
         
         timetables: [],
         currentIndex: 0,
-        isAnimating: false
+        isAnimating: false,
+    
+        isLoading: false, // Variable indiquant si le chargement est en cours
+        isError: false, // Variable indiquant si l'opération a réussi
       };
     },
     computed: {
@@ -182,19 +205,96 @@
         return this.timetables[this.currentIndex];
       }
     },
+    watch: {
+        selectedMajor(selectedMajor) {
+
+            // On rempli la liste des niveaux de la filière.
+            adminService.getLevelsFiliere(selectedMajor).then(
+                (response) => {
+                    var niveaux = response.data;
+
+                    this.levels = niveaux.map((niveau) => {
+                        return {
+                            text: niveau.nom,
+                            value: niveau.codeNiveau,
+                        };
+                    });
+                    this.selectedLevel = null;
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                    console.log("Error : " + this.message)
+                }
+            )
+        },
+        selectedLevel(selectedLevel) {
+
+            // On rempli la liste des niveaux de la filière.
+            adminService.getOptionsLevel(selectedLevel).then(
+                (response) => {
+                    var options = response.data;
+
+                    this.options = options.map((option) => {
+                        return {
+                            text: option.nom,
+                            value: option.codeOption,
+                        };
+                    });
+                    this.selectedOption = null;
+                },
+                (error) => {
+                    this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+                    console.log("Error : " + this.message)
+                }
+            )
+        }
+    },
     created() {
+
+      // On rempli la liste des filières.
+      adminService.getAllFilieres().then(
+          (response) => {
+              var filieres = response.data;
+
+              this.majors = filieres.map((filiere) => {
+                  return {
+                      text: filiere.nom,
+                      value: filiere.codeFiliere,
+                  };
+              });
+          },
+          (error) => {
+              this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+              console.log("Error : " + this.message)
+          }
+      )
+
       // Vérification que initialData est bien défini
       if (this.initialData) {
         // Ajout de initialData en tant que premier élément de timetables
         this.timetables.push(this.initialData);
       }
+
       if (this.initialData1) {
         // Ajout de initialData en tant que premier élément de timetables
         this.timetables.push(this.initialData1);
       }
+
     },
     methods: {
       // ... le reste du code ...
+
+      loadEmplois() {
+          this.isLoading = true; // Début du chargement au clic sur le bouton "Valider"
+
+          // Effectuez ici votre logique de traitement ou d'appel à l'API
+
+          // Simulez une pause de 2 secondes avant de terminer le chargement
+          setTimeout(() => {
+              this.isLoading = false; // Fin du chargement après un délai simulé
+          }, 2000);
+           // Logique de suppression de l'emploi
+      },
 
       downloadPDF() {
         // Logique de téléchargement du fichier PDF
@@ -271,5 +371,10 @@
   .fade-enter,
   .fade-leave-to {
     opacity: 0;
+  }
+
+  .alert-width {
+      max-width: 33.33%; /* 4 colonnes sur 12 */
+      z-index: 9999;
   }
 </style>
